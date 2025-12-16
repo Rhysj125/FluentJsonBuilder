@@ -3,7 +3,7 @@ package fluent.json.builder.gson;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
-class JacksonObjectBuilderTest {
+class GsonObjectBuilderTest {
     @Test
     void buildReturnsEmptyRootObject() {
         var objBuidlder = GsonObjectBuilder.builder();
