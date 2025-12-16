@@ -22,7 +22,12 @@ class JacksonObjectBuilderTest {
 
     @Test
     void buildReturnsObjectWithChildAndGrandChild() {
-        var objBuidlder = JacksonObjectBuilder.builder().addObject("testObject", factory -> factory.addObject("propertyName", objectFactory -> objectFactory));
+        var objBuidlder = JacksonObjectBuilder
+            .builder()
+            .addObject("testObject", 
+                factory -> factory
+                    .addObject("propertyName", objectFactory -> objectFactory)
+            );
         var obj = objBuidlder.build();
 
         assertThat(obj).isNotNull().hasToString("{\"testObject\":{\"propertyName\":{}}}");
@@ -42,5 +47,21 @@ class JacksonObjectBuilderTest {
         var obj = objBuidlder.build();
 
         assertThat(obj).isNotNull().hasToString("{\"child\":{\"stringKey\":\"stringValue\"}}");
+    }
+
+    @Test
+    void buildReturnsObjectWithChildWithArrayProperty() {
+        var objBuidlder = JacksonObjectBuilder.builder().addArray("array", "one", "two");
+        var obj = objBuidlder.build();
+
+        assertThat(obj).isNotNull().hasToString("{\"array\":[\"one\",\"two\"]}");
+    }
+
+    @Test
+    void buildReturnsObjectWithChildWithArrayOfObjectsProperty() {
+        var objBuidlder = JacksonObjectBuilder.builder().addArray("array", factory -> factory.addProperty("child", "value"));
+        var obj = objBuidlder.build();
+
+        assertThat(obj).isNotNull().hasToString("{\"array\":[{\"child\":\"value\"}]}");
     }
 }

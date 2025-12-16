@@ -43,4 +43,20 @@ class GsonObjectBuilderTest {
 
         assertThat(obj).isNotNull().hasToString("{\"child\":{\"stringKey\":\"stringValue\"}}");
     }
+
+    @Test
+    void buildReturnsObjectWithChildWithArrayProperty() {
+        var objBuidlder = GsonObjectBuilder.builder().addArray("array", "one", "two");
+        var obj = objBuidlder.build();
+
+        assertThat(obj).isNotNull().hasToString("{\"array\":[\"one\",\"two\"]}");
+    }
+
+    @Test
+    void buildReturnsObjectWithChildWithArrayOfObjectsProperty() {
+        var objBuidlder = GsonObjectBuilder.builder().addArray("array", factory -> factory.addProperty("child", "value"));
+        var obj = objBuidlder.build();
+
+        assertThat(obj).isNotNull().hasToString("{\"array\":[{\"child\":\"value\"}]}");
+    }
 }

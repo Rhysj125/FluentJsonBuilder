@@ -22,12 +22,48 @@ public class JacksonObjectBuilder implements JsonObjectBuilder<ObjectNode> {
     public JsonObjectBuilder<ObjectNode> addObject(String propertyName, UnaryOperator<JsonObjectBuilder<ObjectNode>> objectFactory) {
         var childObjectFactory = JacksonObjectBuilder.builder();
         var createdChildObject = objectFactory.apply(childObjectFactory).build();
-    
-        
         root.put(propertyName, createdChildObject);
         return this;
     }
 
+    @Override
+    public JsonObjectBuilder<ObjectNode> addArray(String propertyName, String... values) {
+        var arrayNode = root.putArray(propertyName);
+        for(var value : values) {
+            arrayNode.add(value);
+        }
+        return this;
+    }
+    
+    @Override
+    public JsonObjectBuilder<ObjectNode> addArray(String propertyName, Integer... values) {
+        var arrayNode = root.putArray(propertyName);
+        for(var value : values) {
+            arrayNode.add(value);
+        }
+        return this;
+    }
+    
+    @Override
+    public JsonObjectBuilder<ObjectNode> addArray(String propertyName, Boolean... values) {
+        var arrayNode = root.putArray(propertyName);
+        for(var value : values) {
+            arrayNode.add(value);
+        }
+        return this;
+    }
+    
+    @Override
+    public JsonObjectBuilder<ObjectNode> addArray(String propertyName, UnaryOperator<JsonObjectBuilder<ObjectNode>>... values) {
+        var arrayNode = root.putArray(propertyName);
+        for(var value : values) {
+            JacksonObjectBuilder builder = JacksonObjectBuilder.builder();
+            var obj = value.apply(builder).build();
+            arrayNode.add(obj);
+        }
+        return this;
+    }
+    
     @Override
     public JsonObjectBuilder<ObjectNode> addProperty(String propertyName, String value) {
         root.put(propertyName, value);
