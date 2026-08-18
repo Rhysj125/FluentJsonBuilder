@@ -2,4 +2,4 @@ plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
 }
 
-include('fluent-json-builder-core', 'fluent-json-builder-jackson', 'fluent-json-builder-gson')
+include('fluent-json-builder-core', 'fluent-json-builder-jackson', 'fluent-json-builder-gson', 'fluent-json-builder-string')

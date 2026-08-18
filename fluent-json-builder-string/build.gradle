@@ -1,7 +1,5 @@
 plugins {
     id 'java-library'
-    id 'java-test-fixtures'
-    id 'maven-publish'
 }
 
 repositories {
@@ -9,14 +7,14 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
+    api project(':fluent-json-builder-core')
+
     testImplementation libs.junit.jupiter
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.assertj:assertj-core:3.27.6'
-
-    testFixturesImplementation libs.junit.jupiter
-    testFixturesImplementation 'org.assertj:assertj-core:3.27.6'
-    testFixturesRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation testFixtures(project(':fluent-json-builder-core'))
 }
 
 java {

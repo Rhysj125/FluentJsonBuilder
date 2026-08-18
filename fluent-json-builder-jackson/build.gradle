@@ -15,6 +15,7 @@ dependencies {
     testImplementation libs.junit.jupiter
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.assertj:assertj-core:3.27.6'
+    testImplementation testFixtures(project(':fluent-json-builder-core'))
 }
 
 java {

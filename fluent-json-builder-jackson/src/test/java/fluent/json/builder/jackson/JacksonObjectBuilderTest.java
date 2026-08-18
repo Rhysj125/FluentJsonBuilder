@@ -1,67 +1,10 @@
 package fluent.json.builder.jackson;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.jupiter.api.Test;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import fluent.json.builder.core.JsonObjectBuilderTest;
 
-class JacksonObjectBuilderTest {
-    @Test
-    void buildReturnsEmptyRootObject() {
-        var objBuidlder = JacksonObjectBuilder.builder();
-        var obj = objBuidlder.build();
-
-        assertThat(obj).isNotNull().hasToString("{}");
-    }
-
-    @Test
-    void buildReturnsObjectWithChildWhenAdded() {
-        var objBuidlder = JacksonObjectBuilder.builder().addObject("testObject", factory -> factory);
-        var obj = objBuidlder.build();
-
-        assertThat(obj).isNotNull().hasToString("{\"testObject\":{}}");
-    }
-
-    @Test
-    void buildReturnsObjectWithChildAndGrandChild() {
-        var objBuidlder = JacksonObjectBuilder
-            .builder()
-            .addObject("testObject", 
-                factory -> factory
-                    .addObject("propertyName", objectFactory -> objectFactory)
-            );
-        var obj = objBuidlder.build();
-
-        assertThat(obj).isNotNull().hasToString("{\"testObject\":{\"propertyName\":{}}}");
-    }
-
-    @Test
-    void buildReturnsObjectWithStringPropertyWhenAdded() {
-        var objBuidlder = JacksonObjectBuilder.builder().addProperty("stringKey", "stringValue");
-        var obj = objBuidlder.build();
-
-        assertThat(obj).isNotNull().hasToString("{\"stringKey\":\"stringValue\"}");
-    }
-
-    @Test
-    void buildReturnsObjectWithChildWithStringProperty() {
-        var objBuidlder = JacksonObjectBuilder.builder().addObject("child", objectFactory -> objectFactory.addProperty("stringKey", "stringValue"));
-        var obj = objBuidlder.build();
-
-        assertThat(obj).isNotNull().hasToString("{\"child\":{\"stringKey\":\"stringValue\"}}");
-    }
-
-    @Test
-    void buildReturnsObjectWithChildWithArrayProperty() {
-        var objBuidlder = JacksonObjectBuilder.builder().addArray("array", "one", "two");
-        var obj = objBuidlder.build();
-
-        assertThat(obj).isNotNull().hasToString("{\"array\":[\"one\",\"two\"]}");
-    }
-
-    @Test
-    void buildReturnsObjectWithChildWithArrayOfObjectsProperty() {
-        var objBuidlder = JacksonObjectBuilder.builder().addArray("array", factory -> factory.addProperty("child", "value"));
-        var obj = objBuidlder.build();
-
-        assertThat(obj).isNotNull().hasToString("{\"array\":[{\"child\":\"value\"}]}");
+class JacksonObjectBuilderTest extends JsonObjectBuilderTest<ObjectNode> {
+    public JacksonObjectBuilderTest() {
+        super(JacksonObjectBuilder.builder());
     }
 }
